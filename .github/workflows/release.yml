@@ -100,7 +100,7 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Release version: $VERSION"
           cd npm
-          npm version $VERSION --no-git-tag-version
+          npm version $VERSION --no-git-tag-version --allow-same-version
       
       - name: Publish to npm
         run: |
