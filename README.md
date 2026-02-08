@@ -4,8 +4,7 @@
 
 **Blazing fast, secure environment variable manager with real-time hot reload**
 
-[![Build Status](https://github.com/Ifiboys/rust-envsafe-cli/workflows/CI/badge.svg)](https://github.com/Ifiboys/rust-envsafe-cli/actions)
-[![Crates.io](https://img.shields.io/crates/v/envsafe-cli.svg)](https://crates.io/crates/envsafe-cli)
+[![Build Status](https://github.com/Ifiboys/rust-envsafe-cli/workflows/Build%20and%20Test/badge.svg)](https://github.com/Ifiboys/rust-envsafe-cli/actions)
 [![npm](https://img.shields.io/npm/v/@envsafes-org/cli.svg)](https://www.npmjs.com/package/@envsafes-org/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -43,12 +42,7 @@ Full documentation is available in our **[GitHub Wiki](https://github.com/Ifiboy
 
 ## 📦 Installation
 
-**Via Cargo (Recommended)**
-```bash
-cargo install envsafe-cli
-```
-
-**Via npm**
+**Via npm (Recommended)**
 ```bash
 npm install -g @envsafes-org/cli
 ```
