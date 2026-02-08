@@ -39,7 +39,7 @@ if (!platformName || !archName) {
 }
 
 // URL du binaire
-const binaryName = platform === 'win32' ? 'envsafe.exe' : 'envsafe';
+const binaryName = platform === 'win32' ? 'envsafe-bin.exe' : 'envsafe-bin';
 const downloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/envsafe-${platformName}-${archName}${platform === 'win32' ? '.exe' : ''}`;
 
 // Dossier de destination

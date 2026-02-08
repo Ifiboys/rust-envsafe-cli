@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+const { spawn } = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
+// Path to the downloaded native binary
+// On install.js, we name it 'envsafe-bin' (or .exe on Windows)
+const binName = process.platform === 'win32' ? 'envsafe-bin.exe' : 'envsafe-bin';
+const binPath = path.join(__dirname, binName);
+
+if (!fs.existsSync(binPath)) {
+    console.error(`\x1b[31mError: EnvSafe binary not found at ${binPath}\x1b[0m`);
+    console.error('Please try running "npm rebuild" or reinstalling the package.');
+    process.exit(1);
+}
+
+// Spawn the native binary with current arguments
+const child = spawn(binPath, process.argv.slice(2), { stdio: 'inherit' });
+
+child.on('close', (code) => {
+    process.exit(code);
+});
+
+child.on('error', (err) => {
+    console.error('Failed to start EnvSafe CLI:', err);
+    process.exit(1);
+});
+
+// Handle termination signals
+process.on('SIGINT', () => {
+    child.kill('SIGINT');
+});
+
+process.on('SIGTERM', () => {
+    child.kill('SIGTERM');
+});
