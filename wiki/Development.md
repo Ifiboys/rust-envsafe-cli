@@ -73,11 +73,15 @@ cargo clippy -- -D warnings
 
 We automate releases with GitHub Actions.
 
-1.  Update version in `Cargo.toml`.
-2.  Update version in `npm/package.json`.
-3.  Push changes to `main`.
-4.  Create and push a git tag (e.g., `v0.2.x`).
-5.  GitHub Actions will:
+1.  Create a new branch for the release (e.g., `release/v0.2.x`).
+2.  Update version in `Cargo.toml`.
+3.  Update version in `npm/package.json`.
+4.  Commit and push your branch.
+5.  Open a **Pull Request** to `main`.
+6.  Once CI passes and the PR is merged:
+    - Switch to `main` and pull the latest changes.
+    - Create and push a git tag (e.g., `v0.2.x`).
+7.  GitHub Actions will automatically:
     - Build for all platforms.
     - Create a GitHub Release.
     - Publish to npm.
