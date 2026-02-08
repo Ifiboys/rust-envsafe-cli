@@ -1,6 +1,6 @@
 [package]
 name = "envsafe-cli"
-version = "0.2.1"
+version = "0.2.4"
 edition = "2021"
 authors = ["EnvSafe Team"]
 description = "CLI pour EnvSafe - Gestionnaire sécurisé de variables d'environnement avec rotation et hot reload"

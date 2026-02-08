@@ -45,7 +45,7 @@ impl EnvStorage {
         }
 
         unsafe {
-            let ptr = self.shmem.as_ptr() as *mut u8;
+            let ptr = self.shmem.as_ptr();
 
             // Write length as first 8 bytes
             let len_bytes = (json.len() as u64).to_le_bytes();
@@ -84,7 +84,7 @@ impl EnvStorage {
     /// Clear shared memory
     pub fn clear(&mut self) -> Result<()> {
         unsafe {
-            let ptr = self.shmem.as_ptr() as *mut u8;
+            let ptr = self.shmem.as_ptr();
             std::ptr::write_bytes(ptr, 0, SHMEM_SIZE);
         }
         Ok(())
