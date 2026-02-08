@@ -1,0 +1,13 @@
+# This file controls who is automatically requested for review when a pull request is opened.
+# The syntax is: [file pattern] [owner]
+
+# All files in the repository are owned by the @Ifiboys team/user by default
+*       @Ifiboys
+
+# Extra protection for critical workflow files (CI/CD)
+# Only @Ifiboys should approve changes to automation
+.github/workflows/   @Ifiboys
+
+# Protect the release configuration
+Cargo.toml           @Ifiboys
+npm/package.json     @Ifiboys
