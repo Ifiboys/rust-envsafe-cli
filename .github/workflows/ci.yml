@@ -70,8 +70,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: envsafe-${{ matrix.os }}
-          path: |
-            target/release/envsafe${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          path: target/release/envsafe*
 
   docker:
     name: Docker Build
