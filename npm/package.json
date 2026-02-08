@@ -1,6 +1,6 @@
 {
     "name": "@envsafes-org/cli",
-    "version": "0.2.12",
+    "version": "0.2.14",
     "description": "EnvSafe CLI (Rust) - Blazing fast environment variable manager with hot reload",
     "main": "index.js",
     "bin": {

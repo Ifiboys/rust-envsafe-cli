@@ -39,11 +39,16 @@ impl EnvWatcher {
         println!("{}", "  Watching for remote changes...".bright_black());
 
         let token = self.config.get_token()?;
-        let ws_url = self
-            .config
-            .api_url
-            .replace("https://", "wss://")
-            .replace("http://", "ws://");
+        let ws_url = match std::env::var("ENVSAFE_WS_URL") {
+            Ok(url) => url.trim_end_matches('/').to_string(),
+            Err(_) => self
+                .config
+                .api_url
+                .replace("https://", "wss://")
+                .replace("http://", "ws://")
+                .trim_end_matches('/')
+                .to_string(),
+        };
         let ws_url = format!(
             "{}/api/ws/projects/{}/environments/{}?token={}",
             ws_url, project_id, environment, token
