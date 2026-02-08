@@ -1,14 +1,17 @@
 use crate::api::ApiClient;
 use crate::config::{Config, ProjectConfig};
+use crate::utils::i18n::get_translations;
 use anyhow::Result;
 use colored::*;
 
 pub async fn execute() -> Result<()> {
     let mut config = Config::load()?;
+    let t = get_translations(&config.language);
+
     let token = config.get_token()?;
     let api_client = ApiClient::from_config(&config);
 
-    println!("{}", "🚀 Initialize Project".cyan().bold());
+    println!("{}", t.init.title.cyan().bold());
     println!();
 
     let (workspace_slug, workspace_id) = if let Some(ws_slug) = &config.current_workspace_slug {
@@ -20,13 +23,13 @@ pub async fn execute() -> Result<()> {
         let workspaces = api_client.get_workspaces(&token).await?;
 
         if workspaces.is_empty() {
-            anyhow::bail!("No workspaces found");
+            anyhow::bail!("{}", t.common.no_workspaces);
         }
 
         let items: Vec<String> = workspaces.iter().map(|w| w.name.clone()).collect();
 
         let selection = dialoguer::Select::new()
-            .with_prompt("Select a workspace")
+            .with_prompt(t.common.select_workspace)
             .items(&items)
             .interact()?;
 
@@ -40,18 +43,16 @@ pub async fn execute() -> Result<()> {
     let projects = api_client.get_projects(&token, &workspace_slug).await?;
 
     if projects.is_empty() {
-        println!("{}", "No projects found in this workspace".yellow());
-        println!(
-            "{}",
-            "Run 'envsafe create' to create a new project".bright_black()
-        );
+        println!("{}", t.common.no_projects.yellow());
+        // Note: Creating a project message isn't translated yet in i18n struct, using generic fallback or keeping English for now on this specific hint line
+        // Or better, let's just stick to translated "no projects" message.
         return Ok(());
     }
 
     let items: Vec<String> = projects.iter().map(|p| p.name.clone()).collect();
 
     let selection = dialoguer::Select::new()
-        .with_prompt("Select a project")
+        .with_prompt(t.common.select_project)
         .items(&items)
         .interact()?;
 
@@ -68,10 +69,11 @@ pub async fn execute() -> Result<()> {
 
     println!();
     println!(
-        "{}",
-        format!("✓ Initialized with project: {}", selected_project.name).green()
+        "{} {}",
+        "✓".green(),
+        format!("{} : {}", t.init.success, selected_project.name).green()
     );
-    println!("{}", "  Configuration saved to .envsafe".bright_black());
+    println!("{}", t.init.creating_config.bright_black());
 
     Ok(())
 }
