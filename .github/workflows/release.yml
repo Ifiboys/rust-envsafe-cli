@@ -99,6 +99,9 @@ jobs:
           # Extract version from tag (v1.2.3 -> 1.2.3)
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Release version: $VERSION"
+          # Copy README
+          cp README.md npm/README.md
+
           cd npm
           npm version $VERSION --no-git-tag-version --allow-same-version
       

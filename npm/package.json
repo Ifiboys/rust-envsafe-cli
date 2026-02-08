@@ -1,6 +1,6 @@
 {
     "name": "@envsafes-org/cli",
-    "version": "0.2.6",
+    "version": "0.2.8",
     "description": "EnvSafe CLI (Rust) - Blazing fast environment variable manager with hot reload",
     "main": "index.js",
     "bin": {
@@ -26,11 +26,11 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Ifiboys/envsafe-cli-rust.git"
+        "url": "https://github.com/Ifiboys/rust-envsafe-cli.git"
     },
     "homepage": "https://www.envsafe.dev",
     "bugs": {
-        "url": "https://github.com/Ifiboys/envsafe-cli-rust/issues"
+        "url": "https://github.com/Ifiboys/rust-envsafe-cli/issues"
     },
     "engines": {
         "node": ">=14.0.0"

@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const GITHUB_REPO = 'Ifiboys/envsafe-cli-rust';
+const GITHUB_REPO = 'Ifiboys/rust-envsafe-cli';
 const VERSION = require('./package.json').version;
 
 // Déterminer la plateforme et l'architecture
