@@ -1,0 +1,10 @@
+/target
+# /Cargo.lock (committed for reproducible builds)
+*.swp
+*.swo
+*~
+.env
+.env.*
+!.env.example
+.envsafe
+.DS_Store

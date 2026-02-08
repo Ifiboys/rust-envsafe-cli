@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Example app with EnvSafe hot reload
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      - ENVSAFE_TOKEN=${ENVSAFE_TOKEN}
+      - ENVSAFE_WORKSPACE_ID=${ENVSAFE_WORKSPACE_ID}
+      - ENVSAFE_PROJECT_ID=${ENVSAFE_PROJECT_ID}
+      - ENVSAFE_ENV=production
+      - ENVSAFE_WATCH=true
+    volumes:
+      # Mount shared memory for cross-container communication
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 10485760 # 10MB
+    command: [ "node", "index.js" ]
+    restart: unless-stopped
+
+  # Multiple services sharing the same env vars via shared memory
+  worker:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      - ENVSAFE_TOKEN=${ENVSAFE_TOKEN}
+      - ENVSAFE_WORKSPACE_ID=${ENVSAFE_WORKSPACE_ID}
+      - ENVSAFE_PROJECT_ID=${ENVSAFE_PROJECT_ID}
+      - ENVSAFE_ENV=production
+      - ENVSAFE_WATCH=false # Only one watcher needed
+    volumes:
+      # Share the same memory segment
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 10485760
+    command: [ "node", "worker.js" ]
+    restart: unless-stopped
+    depends_on:
+      - app
+
+  # Secret rotation service
+  rotator:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      - ENVSAFE_TOKEN=${ENVSAFE_TOKEN}
+      - ENVSAFE_WORKSPACE_ID=${ENVSAFE_WORKSPACE_ID}
+      - ENVSAFE_PROJECT_ID=${ENVSAFE_PROJECT_ID}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        # Enable rotation
+        envsafe rotate enable --interval 7
+
+        # Run daily check
+        while true; do
+          echo "Checking rotation status..."
+          envsafe rotate status
+          
+          # Wait 24 hours
+          sleep 86400
+        done
+    restart: unless-stopped
