@@ -7,7 +7,7 @@ fn test_cli_version() {
         .arg("--version")
         .assert()
         .success()
-        .stdout(predicate::str::contains("envsafe 0.1.0"));
+        .stdout(predicate::str::contains("envsafe 0.2"));
 }
 
 #[test]
@@ -26,7 +26,7 @@ fn test_login_help() {
         .args(&["login", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Se connecter avec un token API"));
+        .stdout(predicate::str::contains("Authenticate with EnvSafe"));
 }
 
 #[test]
@@ -35,7 +35,7 @@ fn test_pull_help() {
         .args(&["pull", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Télécharger les variables"));
+        .stdout(predicate::str::contains("Download environment variables"));
 }
 
 #[test]
@@ -44,7 +44,7 @@ fn test_push_help() {
         .args(&["push", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Envoyer les variables"));
+        .stdout(predicate::str::contains("Upload environment variables"));
 }
 
 #[test]
@@ -53,7 +53,7 @@ fn test_init_help() {
         .args(&["init", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Configurer un projet"));
+        .stdout(predicate::str::contains("Initialize a project"));
 }
 
 #[test]
@@ -62,7 +62,7 @@ fn test_link_help() {
         .args(&["link", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Lier ce répertoire"));
+        .stdout(predicate::str::contains("Link current directory"));
 }
 
 #[test]
@@ -71,7 +71,7 @@ fn test_whoami_help() {
         .args(&["whoami", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Afficher l'utilisateur connecté"));
+        .stdout(predicate::str::contains("Show current user"));
 }
 
 #[test]
@@ -80,7 +80,7 @@ fn test_logout_help() {
         .args(&["logout", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Se déconnecter"));
+        .stdout(predicate::str::contains("Log out"));
 }
 
 #[test]
@@ -98,7 +98,7 @@ fn test_config_help() {
         .args(&["config", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Gérer la configuration"));
+        .stdout(predicate::str::contains("Manage configuration"));
 }
 
 #[test]
@@ -107,7 +107,7 @@ fn test_lang_help() {
         .args(&["lang", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Changer la langue"));
+        .stdout(predicate::str::contains("Change CLI language"));
 }
 
 #[test]
@@ -125,7 +125,9 @@ fn test_run_help() {
         .args(&["run", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Exécuter une commande"));
+        .stdout(predicate::str::contains(
+            "Run a command with injected variables",
+        ));
 }
 
 #[test]
@@ -134,7 +136,7 @@ fn test_list_help() {
         .args(&["list", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Lister les projets"));
+        .stdout(predicate::str::contains("List projects"));
 }
 
 #[test]
@@ -143,7 +145,7 @@ fn test_create_help() {
         .args(&["create", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Créer un nouveau projet"));
+        .stdout(predicate::str::contains("Create a new project"));
 }
 
 #[test]
@@ -152,7 +154,7 @@ fn test_select_help() {
         .args(&["select", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Sélectionner un projet"));
+        .stdout(predicate::str::contains("Select a project"));
 }
 
 #[test]
@@ -161,7 +163,9 @@ fn test_watch_help() {
         .args(&["watch", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("surveillance"));
+        .stdout(predicate::str::contains(
+            "Start real-time variable monitoring",
+        ));
 }
 
 #[test]
@@ -170,5 +174,5 @@ fn test_rotate_help() {
         .args(&["rotate", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("rotation"));
+        .stdout(predicate::str::contains("Manage secret rotation"));
 }
