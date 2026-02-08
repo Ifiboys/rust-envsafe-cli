@@ -45,8 +45,8 @@ impl EnvWatcher {
             .replace("https://", "wss://")
             .replace("http://", "ws://");
         let ws_url = format!(
-            "{}/api/ws/projects/{}/environments/{}",
-            ws_url, project_id, environment
+            "{}/api/ws/projects/{}/environments/{}?token={}",
+            ws_url, project_id, environment, token
         );
 
         // Connect to WebSocket

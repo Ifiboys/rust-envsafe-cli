@@ -66,6 +66,10 @@ pub struct WatchTranslations {
 
 pub struct RunTranslations {
     pub executing: &'static str,
+    pub using_cached: &'static str,
+    pub loaded_vars: &'static str,
+    pub success: &'static str,
+    pub failure: &'static str,
 }
 
 pub struct LogoutTranslations {
@@ -134,7 +138,11 @@ pub fn get_translations(lang: &str) -> Translations {
                 update_received: "Mise à jour reçue",
             },
             run: RunTranslations {
-                executing: "Exécution de la commande avec les variables injectées...",
+                executing: "🚀 Exécution de la commande avec injection...",
+                using_cached: "✓ Utilisation du cache (Shared Memory)",
+                loaded_vars: "✓ {} variables chargées",
+                success: "✓ Commande terminée avec succès",
+                failure: "La commande a échoué avec le statut : {}",
             },
             logout: LogoutTranslations {
                 success: "Déconnexion réussie",
@@ -197,7 +205,11 @@ pub fn get_translations(lang: &str) -> Translations {
                 update_received: "Update received",
             },
             run: RunTranslations {
-                executing: "Executing command with injected variables...",
+                executing: "🚀 Running command with injected environment...",
+                using_cached: "✓ Using cached variables from shared memory",
+                loaded_vars: "✓ Loaded {} variables",
+                success: "✓ Command completed successfully",
+                failure: "Command failed with status: {}",
             },
             logout: LogoutTranslations {
                 success: "Successfully logged out",
