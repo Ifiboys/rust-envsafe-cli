@@ -242,11 +242,11 @@ impl EnvWatcher {
                     continue;
                 }
                 if let Some((key, value)) = line.split_once('=') {
-                     let key = key.trim().to_string();
-                     let value = value.trim().to_string();
-                     if !remote_vars.contains_key(&key) {
-                         local_only_vars.push((key, value));
-                     }
+                    let key = key.trim().to_string();
+                    let value = value.trim().to_string();
+                    if !remote_vars.contains_key(&key) {
+                        local_only_vars.push((key, value));
+                    }
                 }
             }
         }
@@ -275,7 +275,7 @@ impl EnvWatcher {
         }
 
         std::fs::write(path, content)?;
-        
+
         Ok(())
     }
 }
