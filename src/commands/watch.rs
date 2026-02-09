@@ -13,21 +13,21 @@ pub async fn execute(
     let config = Config::load()?;
     let t = get_translations(&config.language);
 
-    let (project_id, env_name) = if let Some(proj) = project {
+    let (identifier, env_name) = if let Some(proj) = project {
         let env = environment.unwrap_or_else(|| "development".to_string());
         (proj, env)
     } else if let Some(local_config) = ProjectConfig::load()? {
         let env = environment.unwrap_or_else(|| "development".to_string());
-        (local_config.project_id, env)
+        let id = local_config.project_slug.unwrap_or(local_config.project_id);
+        (id, env)
     } else {
-        // Hard to translate this specific error without passing `t` deeper or redefining error handling
-        // For now, let's keep it in English as it's a CLI usage error mostly seen by devs
+        // Hard to translate ...
         anyhow::bail!("No project specified. Run 'envsafe init' or provide project name");
     };
 
     println!("{}", t.watch.title.cyan().bold());
     println!();
-    println!("{}", format!("  Project: {}", project_id).bright_black());
+    println!("{}", format!("  Project: {}", identifier).bright_black());
     println!("{}", format!("  Environment: {}", env_name).bright_black());
     println!();
     println!("{}", t.watch.sync_start.cyan());
@@ -43,7 +43,7 @@ pub async fn execute(
     println!();
 
     // Start remote monitoring loop
-    watcher.watch_remote(&project_id, &env_name).await?;
+    watcher.watch_remote(&identifier, &env_name).await?;
 
     Ok(())
 }
