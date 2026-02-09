@@ -26,11 +26,10 @@ impl EnvStorage {
     pub fn new() -> Result<Self> {
         let shmem = match ShmemConf::new().size(SHMEM_SIZE).os_id(SHMEM_NAME).create() {
             Ok(m) => m,
-            Err(ShmemError::LinkExists) => {
-                // Memory already exists, open it
+            Err(_) => {
+                // If creation fails (likely because it exists), try to open it
                 ShmemConf::new().os_id(SHMEM_NAME).open()?
             }
-            Err(e) => return Err(e.into()),
         };
 
         Ok(Self { shmem })

@@ -548,7 +548,7 @@ dependencies = [
 
 [[package]]
 name = "envsafe-cli"
-version = "0.2.16"
+version = "0.2.19"
 dependencies = [
  "aes-gcm",
  "anyhow",
