@@ -1,6 +1,6 @@
 [package]
 name = "envsafe-cli"
-version = "0.2.14"
+version = "0.2.15"
 edition = "2021"
 authors = ["EnvSafe Team"]
 description = "CLI pour EnvSafe - Gestionnaire sécurisé de variables d'environnement avec rotation et hot reload"
@@ -38,7 +38,7 @@ indicatif = "0.17"
 console = "0.15"
 
 # WebSocket for hot reload
-tokio-tungstenite = "0.21"
+tokio-tungstenite = { version = "0.21", features = ["native-tls"] }
 futures-util = "0.3"
 
 # Shared memory
