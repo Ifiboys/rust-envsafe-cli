@@ -192,8 +192,8 @@ impl EnvWatcher {
 
         let vars_map: HashMap<String, String> = env
             .variables
-            .into_iter()
-            .map(|v| (v.key, v.value))
+            .iter()
+            .map(|v| (v.key.clone(), v.value.clone()))
             .collect();
 
         *current_version += 1;
@@ -208,6 +208,9 @@ impl EnvWatcher {
 
         self.storage.write(&data)?;
 
+        // Update local .env file
+        self.update_local_file(project_id, environment, &vars_map)?;
+
         println!(
             "{}",
             format!(
@@ -217,6 +220,61 @@ impl EnvWatcher {
             )
             .green()
         );
+
+        Ok(())
+    }
+
+    fn update_local_file(
+        &self,
+        project_id: &str,
+        environment: &str,
+        remote_vars: &HashMap<String, String>,
+    ) -> Result<()> {
+        let file_path = ".env";
+        let path = Path::new(file_path);
+        let mut local_only_vars: Vec<(String, String)> = Vec::new();
+
+        if path.exists() {
+            let content = std::fs::read_to_string(path)?;
+            for line in content.lines() {
+                let line = line.trim();
+                if line.is_empty() || line.starts_with('#') {
+                    continue;
+                }
+                if let Some((key, value)) = line.split_once('=') {
+                    let key = key.trim().to_string();
+                    let value = value.trim().to_string();
+                    if !remote_vars.contains_key(&key) {
+                        local_only_vars.push((key, value));
+                    }
+                }
+            }
+        }
+
+        let mut content = String::new();
+        content.push_str(&format!("# EnvSafe - {}\n", project_id));
+        content.push_str(&format!("# Environment: {}\n", environment));
+        content.push_str(&format!("# Updated: {}\n", Utc::now().to_rfc3339()));
+        content.push_str("# Variables from EnvSafe (managed remotely)\n\n");
+
+        // Write API variables (sorted)
+        let mut sorted_keys: Vec<_> = remote_vars.keys().collect();
+        sorted_keys.sort();
+        for key in sorted_keys {
+            if let Some(value) = remote_vars.get(key) {
+                content.push_str(&format!("{}={}\n", key, value));
+            }
+        }
+
+        // Write local-only variables
+        if !local_only_vars.is_empty() {
+            content.push_str("\n# Local variables (not managed by EnvSafe)\n");
+            for (key, value) in local_only_vars {
+                content.push_str(&format!("{}={}\n", key, value));
+            }
+        }
+
+        std::fs::write(path, content)?;
 
         Ok(())
     }
