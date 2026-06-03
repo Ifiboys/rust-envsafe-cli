@@ -33,7 +33,7 @@ impl Default for Config {
         Self {
             token: None,
             api_url: "https://www.envsafe.dev".to_string(),
-            ws_url: Some("wss://socket-server-production-79a0.up.railway.app".to_string()),
+            ws_url: Some("wss://socket.envsafe.dev".to_string()),
             dashboard_url: "https://www.envsafe.dev".to_string(),
             language: "en".to_string(),
             current_workspace: None,
