@@ -2,7 +2,7 @@
 name = "envsafe-cli"
 version = "0.2.20"
 edition = "2021"
-authors = ["EnvSafe Team"]
+authors = ["Ifiboys"]
 description = "CLI pour EnvSafe - Gestionnaire sécurisé de variables d'environnement avec rotation et hot reload"
 license = "MIT"
 repository = "https://github.com/Ifiboys/envsafe-cli"
